@@ -20,7 +20,6 @@ export default class Router implements Subject {
 
     public handleRouteChange = (event: Event, route?: string) => {
         event.preventDefault();
-        console.log(event);
         route && history.pushState(null, '', route)
         this.currentRoute = route || location.pathname
         this.notify()

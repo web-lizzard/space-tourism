@@ -13,13 +13,12 @@ export default class extends HTMLElement implements Observer {
         const templateContent = this.template.content;
         this.list = templateContent.querySelector('ul');
         this.createNavigationItems().forEach(item => this.list!.appendChild(item))
-        const shadowRoot = this.attachShadow({ mode: 'open' }) 
-        shadowRoot.appendChild(templateContent)
+        this.appendChild(templateContent)
         
     }
 
     private createNavigationItems() {
-        return this.router.getRoutes().map(({path, name}) => {
+        return this.router.getRoutes().map(({ path, name }) => {
             const item = document.createElement('li')
             const anchor = document.createElement('a')
             anchor.setAttribute('href', path);
@@ -37,7 +36,6 @@ export default class extends HTMLElement implements Observer {
     }
 
     update(subject: Subject): void {
-        console.log(subject)
 
     }
 }
