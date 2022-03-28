@@ -3,7 +3,7 @@ import type { Observer, Subject } from "../types";
 export default class Router implements Subject {
     
     constructor() {
-        window.addEventListener('popstate', () => this.handleRouteChange)
+        window.addEventListener('popstate', (event: Event) => this.handleRouteChange(event));
     }
 
     public static instance: Router
@@ -18,8 +18,11 @@ export default class Router implements Subject {
         return this.instance
     }
 
-    public handleRouteChange = (route?: string) => {
+    public handleRouteChange = (event: Event, route?: string) => {
+        event.preventDefault();
+        console.log(event);
         route && history.pushState(null, '', route)
+        this.currentRoute = route || location.pathname
         this.notify()
 }
     public subscribe(observer: Observer): void {
@@ -41,5 +44,12 @@ export default class Router implements Subject {
             observer.update(this)
         }
     }
+
+    public getRoutes = () => ([
+        { path: '/', name: 'Home' },
+        { path: '/crew', name: 'Crew'},
+        { path: '/destination', name: 'Destination' },
+        { path: '/technology', name: 'Technology' }
+    ])
 
 } 
